@@ -24,8 +24,8 @@
                        visual-fill-column)))
 
 ;; NOTE: uncomment line bellow if its the first time launching this config
-;; (package-refresh-contents)
-;; (package-install-selected-packages)
+(package-refresh-contents)
+(package-install-selected-packages)
 
 (eval-when-compile
   (require 'use-package))
@@ -37,4 +37,4 @@
 (use-package pack-tweaks)
 (use-package pack-org)
 ;; NOTE: comment the line bellow since this file is not available in the repo
-(use-package pack-orgPrivate)
+;(use-package pack-orgPrivate)

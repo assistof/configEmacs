@@ -1,131 +1,45 @@
-;;; pack-tweaks.el --- Tools package
+;;; pack-tweaks.el --- Simple tweaks
 ;;
-;;; Assis Tiago ---  https://git.sr.ht/~eduardofreitas/emacs.d
+;;; Eduardo Freitas ---  https://git.sr.ht/~eduardofreitas/emacs.d
 ;;
-;;; Comments: this holds all tools that I use that are not appearance related.
+;;; Comments:
 
-(use-package multiple-cursors)
+;; disable backup
+(setq backup-inhibited t)
 
-(use-package magit
-  :config
-  (setq magit-diff-refine-hunk t))
+;; disable auto save
+(setq auto-save-default nil)
 
-(use-package dashboard
-  :config
-  (dashboard-setup-startup-hook)
-  (setq dashboard-startup-banner 'logo
-        dashboard-center-content t
-        dashboard-set-heading-icons t
-        dashboard-set-file-icons t
-        dashboard-week-agenda nil
-        dashboard-items '((bookmarks . 5)
-                          (recents   . 5)
-                          (projects  . 5))))
+;; scrolling line by line
+(setq scroll-conservatively 1)
 
-(use-package dired
-  :config
-  (put 'dired-find-alternate-file 'disabled nil)
-  :bind
-  ;; dired wont open a buffer for each directory
-  (:map dired-mode-map
-        ("RET" . dired-find-alternate-file)))
+;; automatically brakes lines on 80th column
+(setq-default auto-fill-function 'do-auto-fill)
 
-(use-package treemacs
-  :config
-  (setq treemacs-width 28))
+;; no startup
+(setq inhibit-startup-screen t)
 
-(use-package treemacs-projectile
-  :after treemacs projectile
-  :ensure t)
+;; Undo limit is 1MB
+(setq undo-limit 1048576)
 
-(use-package treemacs-magit
-  :after treemacs magit
-  :ensure t)
+;; Rainbow delimiters
+(add-hook 'c-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'emacs-lisp-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'lisp-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'sh-mode-hook #'rainbow-delimiters-mode)
 
-(use-package auctex
-  :init
-  (add-hook 'TeX-after-compilation-finished-functions
-            #'TeX-revert-document-buffer)
-  (setq TeX-source-correlate-mode t
-        TeX-source-correlate-start-server t)
-  (setq font-latex-fontify-script nil)
-  (setq TeX-parse-self t)
-  (setq TeX-auto-save t)
-  (setq TeX-auto-local ".auto")
-  (setq TeX-command-force "LaTeX")
-  (setq-default TeX-master "../main")
-  (setq reftex-plug-into-AUCTeX t)
-  (setq LaTeX-clean-intermediate-suffixes '("\\.aux" "\\.bbl" "\\.blg" "\\.brf"
-  "\\.fot" "\\.glo" "\\.gls" "\\.idx" "\\.ilg" "\\.ind" "\\.lof" "\\.log"
-  "\\.lot" "\\.nav" "\\.out" "\\.snm" "\\.toc" "\\.url" "\\.synctex\\.gz"
-  "\\.bcf" "\\.run\\.xml" "\\.fls" "-blx\\.bib" "\\.acn" "\\.acr" "\\.alg"
-  "\\.glg" "\\.ist" "\\.lol" "\\.loq" "\\.spl" "\\.glsdefs"))
-  :hook
-  (LaTeX-mode . LaTeX-math-mode)
-  (LaTeX-mode . display-line-numbers-mode)
-  (LaTeX-mode . turn-on-reftex))
+;; tabs are evil
+(setq-default indent-tabs-mode nil)
 
-(use-package pdf-tools
-  :if window-system
-  :demand
-  :config
-  (pdf-loader-install)
-  (setq TeX-view-program-selection '((output-pdf "PDF Tools"))
-        TeX-source-correlate-start-server t)
-  (setq pdf-view-midnight-colors '("#c4ccdb" . "#282c34" )))
+;; default coding style
+(setq c-default-style "k&r"
+      c-basic-offset 4)
 
-;; Dumb-jump requires `ag'
-;; (use-package dumb-jump
-;;   :config
-;;   (dumb-jump-mode))
+;; fckng python tabs
+(add-hook 'python-mode-hook
+          (lambda ()
+            (setq indent-tabs-mode t)
+            (setq tab-width 4)
+            (setq python-indent-offset 4)))
 
-(use-package projectile
-  :config
-  (projectile-mode +1))
-
-(use-package company
-  :hook
-  (after-init . global-company-mode)
-  :config
-  (company-quickhelp-mode))
-
-(use-package lsp-mode
-  :hook
-  (c-mode     . lsp-deferred)
-  (c++-mode   . lsp-deferred)
-  :commands
-  (lsp lsp-deferred))
-
-(use-package lsp-ui
-  :commands
-  (lsp-ui-peek-mode)
-  :config
-  (setq lsp-ui-doc-enable nil)
-  :bind
-  ("M-." . lsp-ui-peek-find-definitions)
-  ("M-?" . lsp-ui-peek-find-references))
-
-(use-package hl-todo
-  :config
-  (global-hl-todo-mode)
-  (setq hl-todo-highlight-punctuation ":")
-  (setq hl-todo-keyword-faces
-        '(("TODO" . "#FF4500")
-          ("FIX"  . "#FF3333")
-          ("NOTE" . "#A020F0"))))
-
-(use-package exec-path-from-shell
-  :if window-system
-  :demand
-  :config
-  (exec-path-from-shell-initialize))
-
-(require 'yasnippet)
-(yas-reload-all)
-(add-hook 'c-mode-hook #'yas-minor-mode)
-(add-hook 'LaTeX-mode-hook #'yas-minor-mode)
-(add-hook 'sh-mode-hook #'yas-minor-mode)
-(add-hook 'org-mode-hook #'yas-minor-mode)
-
-
-(provide 'pack-tools)
+(provide 'pack-tweaks)

@@ -7,6 +7,7 @@
 ;; is this the best way to do this?
 (custom-set-variables
  '(blink-cursor-mode nil)
+ '(custom-enabled-themes (quote (wombat)))
  '(column-number-mode t)
  '(global-hl-line-mode t)
  '(menu-bar-mode nil)
@@ -30,13 +31,13 @@
   :config
   (doom-modeline-mode 1))
 
-(use-package doom-themes
-  :config
-  (setq doom-themes-treemacs-theme "doom-colors")
-  (setq doom-themes-treemacs-enable-variable-pitch nil)
-  (load-theme 'doom-vibrant t)
-  (doom-themes-org-config)
-  (doom-themes-treemacs-config))
+;; (use-package doom-themes
+;;   :config
+;;   (setq doom-themes-treemacs-theme "doom-colors")
+;;   (setq doom-themes-treemacs-enable-variable-pitch nil)
+;;   (load-theme 'doom-vibrant t)
+;;   (doom-themes-org-config)
+;;   (doom-themes-treemacs-config))
 
 (use-package hide-mode-line
   :hook
